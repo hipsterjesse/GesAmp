@@ -9,6 +9,6 @@ public class MusicList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music_list);
-        int i = 3;
+        int i = 4;
     }
 }
