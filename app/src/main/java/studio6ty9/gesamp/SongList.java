@@ -11,13 +11,15 @@ import java.util.List;
  */
 public class SongList {
     private static List<Song> allSongs;
+    private static String musicPath;
 
     static {
-        allSongs = new ArrayList<Song>();
+        allSongs = new ArrayList<>();
+        musicPath = Environment.DIRECTORY_MUSIC;
     }
 
     public SongList() {
-        File[] musicFiles = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).listFiles(); //Default Songs Directory
+        File[] musicFiles = Environment.getExternalStoragePublicDirectory(musicPath).listFiles(); //Default Songs Directory
         for (File musicFile : musicFiles) {
             allSongs.add(new Song(musicFile.getName(), musicFile.toString()));
         }
@@ -25,5 +27,14 @@ public class SongList {
 
     public static List<Song> getSongs() {
         return allSongs;
+    }
+
+    public static String getMusicPath() {
+        return musicPath;
+    }
+
+    public static void setMusicPath(String musicPath) {
+        SongList.musicPath = musicPath;
+        new SongList();
     }
 }

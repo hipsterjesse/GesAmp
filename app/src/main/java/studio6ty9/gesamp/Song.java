@@ -27,4 +27,8 @@ public class Song {
     public void setSongPath(String songPath) {
         SongPath = songPath;
     }
+    @Override
+    public String toString() {
+        return getSongTitle();
+    }
 }
