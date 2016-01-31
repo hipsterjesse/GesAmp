@@ -11,15 +11,18 @@ import java.util.List;
  */
 public class SongList {
     private static List<Song> allSongs;
-    private static String musicPath;
+    private static File musicPath;
 
     static {
         allSongs = new ArrayList<>();
-        musicPath = Environment.DIRECTORY_MUSIC;
+        musicPath = new File("/storage/emulated/0/Music");
+        File[] musicFiles = musicPath.listFiles(); //Default Songs Directory
+        for (File musicFile : musicFiles) {
+            allSongs.add(new Song(musicFile.getName(), musicFile.toString()));
+        }
     }
-
     public SongList() {
-        File[] musicFiles = Environment.getExternalStoragePublicDirectory(musicPath).listFiles(); //Default Songs Directory
+        File[] musicFiles = musicPath.listFiles(); //Default Songs Directory
         for (File musicFile : musicFiles) {
             allSongs.add(new Song(musicFile.getName(), musicFile.toString()));
         }
@@ -29,11 +32,12 @@ public class SongList {
         return allSongs;
     }
 
-    public static String getMusicPath() {
+    public static File getMusicPath() {
         return musicPath;
     }
 
-    public static void setMusicPath(String musicPath) {
+    public static void setMusicPath(File musicPath) {
+        allSongs = new ArrayList<>();
         SongList.musicPath = musicPath;
         new SongList();
     }

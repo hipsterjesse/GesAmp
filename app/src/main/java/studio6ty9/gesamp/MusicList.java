@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 public class MusicList extends AppCompatActivity {
 
+    private static final int REQUEST_CODE = 1;
     private ArrayAdapter<Song> songAdapter;
     private ListView listViewSongs;
 
@@ -24,8 +25,7 @@ public class MusicList extends AppCompatActivity {
         listViewSongs = (ListView) findViewById(R.id.listViewSongs);
 
         // create the SongAdapter with Songs from SongList and set it to the listView
-        SongList songList = new SongList();
-        songAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, songList.getSongs());
+        songAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, SongList.getSongs());
         // Add Music Files to listView
         listViewSongs.setAdapter(songAdapter);
 
@@ -54,7 +54,18 @@ public class MusicList extends AppCompatActivity {
 
 
     public void action_settings_Click(MenuItem item) {
-        Intent i = new Intent(this, MusicSettings.class);
-        startActivity(i);
+        Intent settings = new Intent(this, MusicSettings.class);
+        startActivityForResult(settings, REQUEST_CODE);
+    }
+
+    public void refreshList (){
+        songAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, SongList.getSongs());
+        // Add Music Files to listView
+        listViewSongs.setAdapter(songAdapter);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        refreshList();
     }
 }

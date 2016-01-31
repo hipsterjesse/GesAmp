@@ -12,9 +12,19 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Speichern"
+        android:text="Ordner auswählen"
         android:id="@+id/button"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:onClick="ButtonSpeichern_Click" />
+        android:onClick="ButtonSelectFolder_Click"
+        android:layout_below="@+id/editTextCurrentPath"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextCurrentPath"
+        android:layout_alignParentTop="true"
+        android:clickable="false"
+        android:editable="false"
+        android:enabled="false" />
+
 </RelativeLayout>
