@@ -99,14 +99,12 @@ public class MusicPlayer extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)
-        {
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
             audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
             seekBarVolume.setProgress(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
             return true;
         }
-        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP)
-        {
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
             audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
             seekBarVolume.setProgress(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
             return true;
