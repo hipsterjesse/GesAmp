@@ -4,12 +4,16 @@ package studio6ty9.gesamp;
  * Created by Michael on 31.01.2016.
  */
 public class Song {
+    private static int gesId = 0;
+    private int id;
     private String SongTitle;
     private String SongPath;
 
     public Song(String songTitle, String songPath) {
         SongTitle = songTitle;
         SongPath = songPath;
+        id = gesId;
+        gesId ++;
     }
 
     public String getSongTitle() {
@@ -30,5 +34,9 @@ public class Song {
     @Override
     public String toString() {
         return getSongTitle();
+    }
+
+    public int getId() {
+        return id;
     }
 }

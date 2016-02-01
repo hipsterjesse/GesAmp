@@ -36,6 +36,10 @@ public class SongList {
         return musicPath;
     }
 
+    public static Song getSongById (int id){
+        return allSongs.get(id);
+    }
+
     public static void setMusicPath(File musicPath) {
         allSongs = new ArrayList<>();
         SongList.musicPath = musicPath;
