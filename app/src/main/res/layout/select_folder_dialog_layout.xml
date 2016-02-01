@@ -4,12 +4,19 @@
     android:layout_height="match_parent"
     android:weightSum="1">
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextCurrentPath"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.02"
+        android:enabled="false" />
+
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="432dp"
+        android:layout_height="411dp"
         android:id="@+id/listViewFolder"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.02" />
+        android:layout_gravity="center_horizontal" />
 
     <LinearLayout
         android:orientation="horizontal"

@@ -18,9 +18,9 @@ public class MusicSettings extends AppCompatActivity {
 
     private File currentFilePath;
     private List<String> folder;
+    private EditText editTextSelectedPath;
     private EditText editTextCurrentPath;
     private Dialog dialog;
-
     private ListView ListViewFolders;
     private ArrayAdapter<String> FoldersAdapter;
 
@@ -29,31 +29,34 @@ public class MusicSettings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music_settings);
-        editTextCurrentPath = (EditText) findViewById(R.id.editTextCurrentPath);
+        editTextSelectedPath = (EditText) findViewById(R.id.editTextSelectedPath);
         currentFilePath = SongList.getMusicPath();
-        editTextCurrentPath.setText(currentFilePath.toString());
+        editTextSelectedPath.setText(currentFilePath.toString());
 
     }
 
     public void ButtonSelectFolder_Click (View view){
+        currentFilePath = SongList.getMusicPath();
         dialog = new Dialog(MusicSettings.this);
         dialog.setContentView(R.layout.select_folder_dialog_layout);
         dialog.show();
         ListViewFolders = (ListView) dialog.findViewById(R.id.listViewFolder);
+        editTextCurrentPath = (EditText) dialog.findViewById(R.id.editTextCurrentPath);
 
         showFiles();
         ListViewFolders.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (new File(currentFilePath + "/" + FoldersAdapter.getItem(position)).isFile()) {
-                    Toast.makeText(MusicSettings.this,"This is no Folder", Toast.LENGTH_LONG).show();
-                }else {
+                    Toast.makeText(MusicSettings.this, "This is no Folder", Toast.LENGTH_LONG).show();
+                } else {
                     currentFilePath = new File(currentFilePath + "/" + FoldersAdapter.getItem(position));
-                    editTextCurrentPath.setText(currentFilePath.toString());
                     showFiles();
+                    editTextCurrentPath.setText(currentFilePath.toString());
                 }
             }
         });
+        editTextCurrentPath.setText(currentFilePath.toString());
     }
 
     public void ButtonBack_Click (View view){
@@ -88,6 +91,7 @@ public class MusicSettings extends AppCompatActivity {
     public void button_SelectFolder_Click(View view){
         SongList.setMusicPath(currentFilePath);
         dialog.cancel();
+        editTextSelectedPath.setText(currentFilePath.toString());
     }
 
 }

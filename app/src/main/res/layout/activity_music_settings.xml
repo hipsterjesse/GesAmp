@@ -15,13 +15,13 @@
         android:text="Ordner auswählen"
         android:id="@+id/button"
         android:onClick="ButtonSelectFolder_Click"
-        android:layout_below="@+id/editTextCurrentPath"
+        android:layout_below="@+id/editTextSelectedPath"
         android:layout_centerHorizontal="true" />
 
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editTextCurrentPath"
+        android:id="@+id/editTextSelectedPath"
         android:layout_alignParentTop="true"
         android:clickable="false"
         android:editable="false"
