@@ -40,8 +40,7 @@ public class MusicList extends AppCompatActivity {
     }
     public void openSong(Song song) {
         Intent startSong = new Intent(this, MusicPlayer.class);
-        startSong.putExtra("path", song.getSongPath());
-        startSong.putExtra("title", song.getSongTitle());
+        startSong.putExtra("songId", song.getId());
         startActivity(startSong);
     }
 
