@@ -17,7 +17,8 @@ public class Song {
     }
 
     public String getSongTitle() {
-        return SongTitle;
+        String[] separated = SongTitle.split("\\.");
+        return separated[0];
     }
 
     public void setSongTitle(String songTitle) {
