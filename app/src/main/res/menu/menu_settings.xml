@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/action_settings"
-        
-        android:title="Settings"
+
+        android:icon="@drawable/option_icon"
         android:orderInCategory="100"
         android:onClick="action_settings_Click"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
 </menu>
