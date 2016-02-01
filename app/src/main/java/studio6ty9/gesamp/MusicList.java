@@ -20,6 +20,7 @@ public class MusicList extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_music_list);
 
         listViewSongs = (ListView) findViewById(R.id.listViewSongs);
@@ -38,6 +39,7 @@ public class MusicList extends AppCompatActivity {
             }
         });
     }
+
     public void openSong(Song song) {
         Intent startSong = new Intent(this, MusicPlayer.class);
         startSong.putExtra("songId", song.getId());
@@ -51,13 +53,12 @@ public class MusicList extends AppCompatActivity {
         return true;
     }
 
-
     public void action_settings_Click(MenuItem item) {
         Intent settings = new Intent(this, MusicSettings.class);
         startActivityForResult(settings, REQUEST_CODE);
     }
 
-    public void refreshList (){
+    public void refreshList() {
         songAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, SongList.getSongs());
         // Add Music Files to listView
         listViewSongs.setAdapter(songAdapter);
