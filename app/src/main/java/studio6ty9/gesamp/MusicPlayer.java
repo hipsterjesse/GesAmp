@@ -16,6 +16,8 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.io.File;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Handler;
 
 public class MusicPlayer extends AppCompatActivity {
     private int songId;
@@ -25,6 +27,11 @@ public class MusicPlayer extends AppCompatActivity {
     private ToggleButton toggleButtonPlayStop;
     private static SeekBar seekBarVolume;
     private AudioManager audioManager;
+    private double startTime;
+    private double finalTime;
+    private TextView textViewCurrent;
+    private TextView textViewDuration;
+    private Handler myHandler;
 
 
     @Override
@@ -36,6 +43,8 @@ public class MusicPlayer extends AppCompatActivity {
         currentSong = SongList.getSongById(songId);
 
         textViewTitle = (TextView) findViewById(R.id.textViewTitle);
+        textViewCurrent= (TextView) findViewById(R.id.textViewCurrent);
+        textViewDuration= (TextView) findViewById(R.id.textViewDuration);
         textViewTitle.append(currentSong.getSongTitle());
 
 
@@ -54,7 +63,39 @@ public class MusicPlayer extends AppCompatActivity {
             }
         });
 
+        startTime = player.getCurrentPosition();
+        finalTime  = player.getDuration();
+
+        textViewDuration.setText(String.format("%d min, %d sec",
+                        TimeUnit.MILLISECONDS.toMinutes((long) finalTime),
+                        TimeUnit.MILLISECONDS.toSeconds((long) finalTime) -
+                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) finalTime)))
+        );
+
+        textViewCurrent.setText(String.format("%d min, %d sec",
+                        TimeUnit.MILLISECONDS.toMinutes((long) startTime),
+                        TimeUnit.MILLISECONDS.toSeconds((long) startTime) -
+                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) startTime)))
+        );
+        textViewCurrent.postDelayed(UpdateSongTime,100);
+
     }
+
+    private Runnable UpdateSongTime = new Runnable() {
+        public void run() {
+            startTime = player.getCurrentPosition();
+            textViewCurrent.setText(String.format("%d min, %d sec",
+
+                            TimeUnit.MILLISECONDS.toMinutes((long) startTime),
+                            TimeUnit.MILLISECONDS.toSeconds((long) startTime) -
+                                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.
+                                            toMinutes((long) startTime)))
+            );
+            textViewCurrent.postDelayed(UpdateSongTime,100);
+            //seekbar.setProgress((int)startTime);
+            //myHandler.postDelayed(this, 100);
+        }
+    };
 
     public void firstStartMusic() {
         if (player != null && player.isPlaying()) {
@@ -111,6 +152,4 @@ public class MusicPlayer extends AppCompatActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
-
-
 }
