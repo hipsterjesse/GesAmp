@@ -41,4 +41,20 @@
         android:layout_above="@+id/toggleButtonPlayStop"
         android:layout_alignParentStart="true" />
 
+    <ImageButton
+        android:layout_width="120px"
+        android:layout_height="120px"
+        android:id="@+id/imageButtonForward"
+        android:background="@drawable/forward_button"
+        android:layout_alignBottom="@+id/toggleButtonPlayStop"
+        android:layout_toEndOf="@+id/toggleButtonPlayStop" />
+
+    <ImageButton
+        android:layout_width="120px"
+        android:layout_height="120px"
+        android:id="@+id/imageButton"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@+id/toggleButtonPlayStop"
+        android:background="@drawable/backward_button"/>
+
 </RelativeLayout>
