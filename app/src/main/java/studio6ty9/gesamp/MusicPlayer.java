@@ -66,25 +66,25 @@ public class MusicPlayer extends AppCompatActivity {
         startTime = player.getCurrentPosition();
         finalTime  = player.getDuration();
 
-        textViewDuration.setText(String.format("%d min, %d sec",
+        textViewDuration.setText(String.format("%d:%d",
                         TimeUnit.MILLISECONDS.toMinutes((long) finalTime),
                         TimeUnit.MILLISECONDS.toSeconds((long) finalTime) -
                                 TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) finalTime)))
         );
 
-        textViewCurrent.setText(String.format("%d min, %d sec",
+        textViewCurrent.setText(String.format("%d:%d",
                         TimeUnit.MILLISECONDS.toMinutes((long) startTime),
                         TimeUnit.MILLISECONDS.toSeconds((long) startTime) -
                                 TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) startTime)))
         );
-        textViewCurrent.postDelayed(UpdateSongTime,100);
+        textViewCurrent.postDelayed(UpdateSongTime, 100);
 
     }
 
     private Runnable UpdateSongTime = new Runnable() {
         public void run() {
             startTime = player.getCurrentPosition();
-            textViewCurrent.setText(String.format("%d min, %d sec",
+            textViewCurrent.setText(String.format("%d:%d",
 
                             TimeUnit.MILLISECONDS.toMinutes((long) startTime),
                             TimeUnit.MILLISECONDS.toSeconds((long) startTime) -
