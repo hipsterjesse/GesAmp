@@ -46,7 +46,7 @@ public class MusicSettings extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (new File(currentFilePath + "/" + FoldersAdapter.getItem(position)).isFile()) {
-                    Toast.makeText(MusicSettings.this,"Cannot open file", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MusicSettings.this,"This is no Folder", Toast.LENGTH_LONG).show();
                 }else {
                     currentFilePath = new File(currentFilePath + "/" + FoldersAdapter.getItem(position));
                     editTextCurrentPath.setText(currentFilePath.toString());

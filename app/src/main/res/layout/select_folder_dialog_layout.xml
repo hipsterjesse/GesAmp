@@ -28,8 +28,8 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Dieses Verzeichnis"
-            android:id="@+id/button3"
+            android:text="Verzeichnis wählen"
+            android:id="@+id/buttonSelectFolder"
             android:onClick="button_SelectFolder_Click" />
     </LinearLayout>
 
