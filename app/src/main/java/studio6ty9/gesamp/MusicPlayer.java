@@ -78,14 +78,10 @@ public class MusicPlayer extends AppCompatActivity {
         seekBarVolume.setProgress(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
         seekBarVolume.setOnSeekBarChangeListener(
                 new SeekBar.OnSeekBarChangeListener() {
-                    int progressValue;
-                    int progressVolume;
 
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                        progressValue = progress;
-                        progressVolume = progressValue;
-                        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progressVolume, progressVolume);
+                        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
                     }
 
                     @Override
@@ -105,16 +101,14 @@ public class MusicPlayer extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)
         {
-            int i = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC) -1;
-            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, i, 2);
-            seekBarVolume.setProgress(i);
+            audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
+            seekBarVolume.setProgress(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
             return true;
         }
         if (keyCode == KeyEvent.KEYCODE_VOLUME_UP)
         {
-            int i = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC) +1;
-            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, i, 2);
-            seekBarVolume.setProgress(i);
+            audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
+            seekBarVolume.setProgress(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
             return true;
         }
         return super.onKeyDown(keyCode, event);
