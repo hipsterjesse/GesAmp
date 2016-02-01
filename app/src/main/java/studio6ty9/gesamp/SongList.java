@@ -45,4 +45,14 @@ public class SongList {
         SongList.musicPath = musicPath;
         new SongList();
     }
+    public boolean deleteSong(Song song){
+        if(song.getSongPath() != null) {
+            File deletePath = new File(song.getSongPath().toString());
+            deletePath.delete();
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }
