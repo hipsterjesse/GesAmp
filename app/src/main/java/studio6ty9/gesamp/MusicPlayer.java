@@ -7,10 +7,12 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.io.File;
@@ -98,4 +100,25 @@ public class MusicPlayer extends AppCompatActivity {
                 }
         );
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)
+        {
+            int i = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC) -1;
+            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, i, 2);
+            seekBarVolume.setProgress(i);
+            return true;
+        }
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP)
+        {
+            int i = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC) +1;
+            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, i, 2);
+            seekBarVolume.setProgress(i);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+
 }
