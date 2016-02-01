@@ -25,8 +25,8 @@
         android:layout_centerHorizontal="true" />
 
     <ToggleButton
-        android:layout_width="140px"
-        android:layout_height="140px"
+        android:layout_width="200px"
+        android:layout_height="200px"
         android:text="New ToggleButton"
         android:id="@+id/toggleButtonPlayStop"
         android:layout_alignParentBottom="true"
