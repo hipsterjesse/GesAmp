@@ -12,7 +12,6 @@ import java.util.List;
 public class SongList {
     private static List<Song> allSongs;
     private static File musicPath;
-    int i = 3;
 
     static {
         allSongs = new ArrayList<>();
