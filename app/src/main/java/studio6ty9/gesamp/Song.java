@@ -13,7 +13,7 @@ public class Song {
         SongTitle = songTitle;
         SongPath = songPath;
         id = gesId;
-        gesId ++;
+        gesId++;
     }
 
     public String getSongTitle() {
@@ -32,6 +32,7 @@ public class Song {
     public void setSongPath(String songPath) {
         SongPath = songPath;
     }
+
     @Override
     public String toString() {
         return getSongTitle();

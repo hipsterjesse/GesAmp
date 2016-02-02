@@ -21,6 +21,7 @@ public class SongList {
             allSongs.add(new Song(musicFile.getName(), musicFile.toString()));
         }
     }
+
     public SongList() {
         File[] musicFiles = musicPath.listFiles(); //Default Songs Directory
         for (File musicFile : musicFiles) {
@@ -36,23 +37,43 @@ public class SongList {
         return musicPath;
     }
 
-    public static Song getSongById (int id){
-        return allSongs.get(id);
+    public static Song getSongById(int id) {
+        for (Song song:allSongs) {
+            if (song.getId() == id){
+                return song;
+            }
+        }
+        return null;
     }
+
+    public static Song getNextSong(Song currentSong){
+        for (Song song:allSongs) {
+            if (song == currentSong){
+                return getSongById(song.getId() + 1);
+            }
+        }
+        return null;
+    }
+    public static Song getLastSong(Song currentSong){
+        for (Song song:allSongs) {
+            if (song == currentSong){
+                return getSongById(song.getId()-1);
+            }
+        }
+        return null;
+    }
+
+
+
 
     public static void setMusicPath(File musicPath) {
         allSongs = new ArrayList<>();
         SongList.musicPath = musicPath;
         new SongList();
     }
-    public boolean deleteSong(Song song){
-        if(song.getSongPath() != null) {
-            File deletePath = new File(song.getSongPath().toString());
-            deletePath.delete();
-            return true;
-        }
-        else{
-            return false;
-        }
+
+    public boolean deleteSong(Song song) {
+        File deletePath = new File(song.getSongPath());
+        return deletePath.delete();
     }
 }

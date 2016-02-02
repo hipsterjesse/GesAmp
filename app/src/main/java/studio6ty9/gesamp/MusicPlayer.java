@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
@@ -20,11 +21,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Handler;
 
 public class MusicPlayer extends AppCompatActivity {
-    private int songId;
     private Song currentSong;
     private static MediaPlayer player;
     private TextView textViewTitle;
-    private ToggleButton toggleButtonPlayStop;
     private static SeekBar seekBarVolume;
     private static SeekBar seekBarSongStatus;
     private AudioManager audioManager;
@@ -32,7 +31,7 @@ public class MusicPlayer extends AppCompatActivity {
     private double finalTime;
     private TextView textViewCurrent;
     private TextView textViewDuration;
-    private Handler myHandler;
+    private ToggleButton toggleButtonPlayStop;
 
 
     @Override
@@ -40,17 +39,12 @@ public class MusicPlayer extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music_player);
         Bundle extras = getIntent().getExtras();
-        songId = extras.getInt("songId");
-        currentSong = SongList.getSongById(songId);
+        currentSong = SongList.getSongById(extras.getInt("songId"));
 
         textViewTitle = (TextView) findViewById(R.id.textViewTitle);
-        textViewCurrent= (TextView) findViewById(R.id.textViewCurrent);
-        textViewDuration= (TextView) findViewById(R.id.textViewDuration);
+        textViewCurrent = (TextView) findViewById(R.id.textViewCurrent);
+        textViewDuration = (TextView) findViewById(R.id.textViewDuration);
         seekBarSongStatus = (SeekBar) findViewById(R.id.seekBarSongStatus);
-        textViewTitle.append(currentSong.getSongTitle());
-
-        firstStartMusic();
-        seekBarVolume();
 
         toggleButtonPlayStop = (ToggleButton) findViewById(R.id.toggleButtonPlayStop);
         toggleButtonPlayStop.setChecked(true);
@@ -63,27 +57,9 @@ public class MusicPlayer extends AppCompatActivity {
                 }
             }
         });
-        seekBarSongStatus.setOnSeekBarChangeListener(
-                new SeekBar.OnSeekBarChangeListener() {
 
-                    @Override
-                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                        if (player.getCurrentPosition() - progress < -1000 || player.getCurrentPosition() - progress > 1000){
-                            player.seekTo(progress);
-                        }
-                    }
-
-                    @Override
-                    public void onStartTrackingTouch(SeekBar seekBar) {
-
-                    }
-
-                    @Override
-                    public void onStopTrackingTouch(SeekBar seekBar) {
-
-                    }
-                }
-        );
+        firstStartMusic();
+        seekBarVolume();
     }
 
     private Runnable UpdateSongTime = new Runnable() {
@@ -100,11 +76,33 @@ public class MusicPlayer extends AppCompatActivity {
                             TimeUnit.MILLISECONDS.toSeconds((long) finalTime) -
                                     TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) finalTime)))
             );
-            seekBarSongStatus();
 
-            textViewCurrent.postDelayed(UpdateSongTime,100);
-            //seekbar.setProgress((int)startTime);
-            //myHandler.postDelayed(this, 100);
+            seekBarSongStatus.setMax(player.getDuration());
+            seekBarSongStatus.setProgress(player.getCurrentPosition());
+
+            seekBarSongStatus.setOnSeekBarChangeListener(
+                    new SeekBar.OnSeekBarChangeListener() {
+
+                        @Override
+                        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                            if (player.getCurrentPosition() - progress < -1000 || player.getCurrentPosition() - progress > 1000) {
+                                player.seekTo(progress);
+                            }
+                        }
+
+                        @Override
+                        public void onStartTrackingTouch(SeekBar seekBar) {
+
+                        }
+
+                        @Override
+                        public void onStopTrackingTouch(SeekBar seekBar) {
+
+                        }
+                    }
+            );
+
+            textViewCurrent.postDelayed(UpdateSongTime, 100);
         }
     };
 
@@ -114,8 +112,20 @@ public class MusicPlayer extends AppCompatActivity {
         }
         player = MediaPlayer.create(this, Uri.fromFile(new File(currentSong.getSongPath())));
         player.start();
+        player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                startNextSong();
+            }
+
+        });
+
+        toggleButtonPlayStop.setChecked(true);
         startTime = player.getCurrentPosition();
-        finalTime  = player.getDuration();
+        finalTime = player.getDuration();
+        textViewTitle.setText(currentSong.getSongTitle());
+        seekBarSongStatus.setProgress(0);
         textViewCurrent.postDelayed(UpdateSongTime, 100);
     }
 
@@ -125,6 +135,31 @@ public class MusicPlayer extends AppCompatActivity {
 
     public void stopMusic() {
         player.pause();
+    }
+
+
+    public void imageButtonForward_Click(View view) {
+        startNextSong();
+    }
+
+    public void imageButtonBackward_Click(View view) {
+        Song song = SongList.getLastSong(currentSong);
+        if (song != null) {
+            currentSong = song;
+            firstStartMusic();
+        } else {
+            Toast.makeText(MusicPlayer.this, "Es gibt kein vorheriges Lied!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void startNextSong() {
+        Song song = SongList.getNextSong(currentSong);
+        if (song != null) {
+            currentSong = song;
+            firstStartMusic();
+        } else {
+            Toast.makeText(MusicPlayer.this, "Es gibt kein nächstes Lied!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void seekBarVolume() {
@@ -150,11 +185,6 @@ public class MusicPlayer extends AppCompatActivity {
                     }
                 }
         );
-    }
-
-    public void seekBarSongStatus(){
-        seekBarSongStatus.setMax(player.getDuration());
-        seekBarSongStatus.setProgress(player.getCurrentPosition());
     }
 
     @Override

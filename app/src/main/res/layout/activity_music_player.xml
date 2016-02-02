@@ -47,16 +47,18 @@
         android:id="@+id/imageButtonForward"
         android:background="@drawable/forward_button"
         android:layout_alignBottom="@+id/toggleButtonPlayStop"
-        android:layout_toEndOf="@+id/toggleButtonPlayStop" />
+        android:layout_toEndOf="@+id/toggleButtonPlayStop"
+        android:onClick="imageButtonForward_Click" />
 
     <ImageButton
         android:layout_width="120px"
         android:layout_height="120px"
-        android:id="@+id/imageButton"
+        android:id="@+id/imageButtonBackward"
         android:background="@drawable/backward_button"
         android:layout_alignBottom="@+id/toggleButtonPlayStop"
         android:layout_toStartOf="@+id/toggleButtonPlayStop"
-        android:layout_alignWithParentIfMissing="false" />
+        android:layout_alignWithParentIfMissing="false"
+        android:onClick="imageButtonBackward_Click" />
 
     <TextView
         android:layout_width="wrap_content"
