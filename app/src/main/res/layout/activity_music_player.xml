@@ -62,10 +62,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
+        android:text="0:00"
         android:id="@+id/textViewCurrent"
         android:layout_above="@+id/seekBarVolume"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="36dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -74,6 +75,13 @@
         android:text="Small Text"
         android:id="@+id/textViewDuration"
         android:layout_alignTop="@+id/textViewCurrent"
-        android:layout_alignEnd="@+id/seekBarVolume" />
+        android:layout_alignEnd="@+id/seekBarSongStatus" />
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/seekBarSongStatus"
+        android:layout_below="@+id/textViewDuration"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

@@ -26,6 +26,7 @@ public class MusicPlayer extends AppCompatActivity {
     private TextView textViewTitle;
     private ToggleButton toggleButtonPlayStop;
     private static SeekBar seekBarVolume;
+    private static SeekBar seekBarSongStatus;
     private AudioManager audioManager;
     private double startTime;
     private double finalTime;
@@ -45,8 +46,8 @@ public class MusicPlayer extends AppCompatActivity {
         textViewTitle = (TextView) findViewById(R.id.textViewTitle);
         textViewCurrent= (TextView) findViewById(R.id.textViewCurrent);
         textViewDuration= (TextView) findViewById(R.id.textViewDuration);
+        seekBarSongStatus = (SeekBar) findViewById(R.id.seekBarSongStatus);
         textViewTitle.append(currentSong.getSongTitle());
-
 
         firstStartMusic();
         seekBarVolume();
@@ -62,35 +63,45 @@ public class MusicPlayer extends AppCompatActivity {
                 }
             }
         });
+        seekBarSongStatus.setOnSeekBarChangeListener(
+                new SeekBar.OnSeekBarChangeListener() {
 
-        startTime = player.getCurrentPosition();
-        finalTime  = player.getDuration();
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        if (player.getCurrentPosition() - progress < -1000 || player.getCurrentPosition() - progress > 1000){
+                            player.seekTo(progress);
+                        }
+                    }
 
-        textViewDuration.setText(String.format("%d:%d",
-                        TimeUnit.MILLISECONDS.toMinutes((long) finalTime),
-                        TimeUnit.MILLISECONDS.toSeconds((long) finalTime) -
-                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) finalTime)))
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+
+                    }
+                }
         );
-
-        textViewCurrent.setText(String.format("%d:%d",
-                        TimeUnit.MILLISECONDS.toMinutes((long) startTime),
-                        TimeUnit.MILLISECONDS.toSeconds((long) startTime) -
-                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) startTime)))
-        );
-        textViewCurrent.postDelayed(UpdateSongTime, 100);
-
     }
 
     private Runnable UpdateSongTime = new Runnable() {
         public void run() {
             startTime = player.getCurrentPosition();
             textViewCurrent.setText(String.format("%d:%d",
-
                             TimeUnit.MILLISECONDS.toMinutes((long) startTime),
                             TimeUnit.MILLISECONDS.toSeconds((long) startTime) -
-                                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.
-                                            toMinutes((long) startTime)))
+                                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) startTime)))
             );
+            finalTime = player.getDuration() - player.getCurrentPosition();
+            textViewDuration.setText(String.format("%d:%d",
+                            TimeUnit.MILLISECONDS.toMinutes((long) finalTime),
+                            TimeUnit.MILLISECONDS.toSeconds((long) finalTime) -
+                                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) finalTime)))
+            );
+            seekBarSongStatus();
+
             textViewCurrent.postDelayed(UpdateSongTime,100);
             //seekbar.setProgress((int)startTime);
             //myHandler.postDelayed(this, 100);
@@ -103,6 +114,9 @@ public class MusicPlayer extends AppCompatActivity {
         }
         player = MediaPlayer.create(this, Uri.fromFile(new File(currentSong.getSongPath())));
         player.start();
+        startTime = player.getCurrentPosition();
+        finalTime  = player.getDuration();
+        textViewCurrent.postDelayed(UpdateSongTime, 100);
     }
 
     public void resumeMusic() {
@@ -136,6 +150,11 @@ public class MusicPlayer extends AppCompatActivity {
                     }
                 }
         );
+    }
+
+    public void seekBarSongStatus(){
+        seekBarSongStatus.setMax(player.getDuration());
+        seekBarSongStatus.setProgress(player.getCurrentPosition());
     }
 
     @Override
