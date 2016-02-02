@@ -38,32 +38,31 @@ public class SongList {
     }
 
     public static Song getSongById(int id) {
-        for (Song song:allSongs) {
-            if (song.getId() == id){
+        for (Song song : allSongs) {
+            if (song.getId() == id) {
                 return song;
             }
         }
         return null;
     }
 
-    public static Song getNextSong(Song currentSong){
-        for (Song song:allSongs) {
-            if (song == currentSong){
+    public static Song getNextSong(Song currentSong) {
+        for (Song song : allSongs) {
+            if (song == currentSong) {
                 return getSongById(song.getId() + 1);
             }
         }
         return null;
     }
-    public static Song getLastSong(Song currentSong){
-        for (Song song:allSongs) {
-            if (song == currentSong){
-                return getSongById(song.getId()-1);
+
+    public static Song getLastSong(Song currentSong) {
+        for (Song song : allSongs) {
+            if (song == currentSong) {
+                return getSongById(song.getId() - 1);
             }
         }
         return null;
     }
-
-
 
 
     public static void setMusicPath(File musicPath) {
