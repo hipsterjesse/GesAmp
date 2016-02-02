@@ -32,7 +32,6 @@ public class MusicSettings extends AppCompatActivity {
         editTextSelectedPath = (EditText) findViewById(R.id.editTextSelectedPath);
         currentFilePath = SongList.getMusicPath();
         editTextSelectedPath.setText(currentFilePath.toString());
-        int i = 1;
 
     }
 
