@@ -1,7 +1,6 @@
 package studio6ty9.gesamp;
 
 import android.content.Context;
-import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -10,7 +9,6 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,34 +16,30 @@ import android.widget.ToggleButton;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Handler;
 
 public class MusicPlayer extends AppCompatActivity {
-    private Song currentSong;
+    private static Song currentSong;
     private static MediaPlayer player;
-    private TextView textViewTitle;
     private static SeekBar seekBarVolume;
     private static SeekBar seekBarSongStatus;
-    private AudioManager audioManager;
+    private static TextView textViewCurrent;
+    private static TextView textViewDuration;
     private double startTime;
     private double finalTime;
-    private TextView textViewCurrent;
-    private TextView textViewDuration;
     private ToggleButton toggleButtonPlayStop;
+    private TextView textViewTitle;
+    private AudioManager audioManager;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music_player);
-        Bundle extras = getIntent().getExtras();
-        currentSong = SongList.getSongById(extras.getInt("songId"));
 
         textViewTitle = (TextView) findViewById(R.id.textViewTitle);
         textViewCurrent = (TextView) findViewById(R.id.textViewCurrent);
         textViewDuration = (TextView) findViewById(R.id.textViewDuration);
         seekBarSongStatus = (SeekBar) findViewById(R.id.seekBarSongStatus);
-
         toggleButtonPlayStop = (ToggleButton) findViewById(R.id.toggleButtonPlayStop);
         toggleButtonPlayStop.setChecked(true);
         toggleButtonPlayStop.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -57,8 +51,12 @@ public class MusicPlayer extends AppCompatActivity {
                 }
             }
         });
+        Bundle extras = getIntent().getExtras();
+        if (currentSong != SongList.getSongById(extras.getInt("songId"))) {
+            currentSong = SongList.getSongById(extras.getInt("songId"));
+            firstStartMusic();
+        }
 
-        firstStartMusic();
         seekBarVolume();
     }
 
@@ -185,6 +183,10 @@ public class MusicPlayer extends AppCompatActivity {
                     }
                 }
         );
+    }
+
+    public static Song getCurrentSong() {
+        return currentSong;
     }
 
     @Override
